@@ -7,7 +7,7 @@ function App() {
   const [description, setDescription] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:8000/items/return')
+    fetch('/api/items/return')
       .then(response => response.json())
       .then(data => setItems(data));
   }, []);
@@ -15,7 +15,7 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const newItem = { name, description };
-    fetch('http://localhost:8000/items/create', {
+    fetch('/api/items/create', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -27,7 +27,7 @@ function App() {
   };
 
   const handleDelete = (id) => {
-    fetch(`http://localhost:8000/items/delete/${id}`, {
+    fetch(`/api/items/delete/${id}`, {
       method: 'DELETE',
     })
       .then(response => response.json())
