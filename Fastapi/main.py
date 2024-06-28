@@ -31,6 +31,9 @@ class ItemResponse(BaseModel):
     id: int
     name: str
     description: str
+    
+    class Config:
+        orm_mode = True
 
 @app.post("/items/create", response_model=ItemResponse)
 def create_item(item: ItemCreate):
@@ -47,7 +50,7 @@ def read_items(skip: int = 0, limit: int = 10):
     db = SessionLocal()
     items = db.query(Item).offset(skip).limit(limit).all()
     db.close()
-    return items
+    return [ItemResponse.from_orm(item) for item in items]
 
 @app.delete("/items/delete/{item_id}", response_model=ItemResponse)
 def delete_item(item_id: int):
